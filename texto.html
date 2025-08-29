@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Espelhador (React Native Web)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- React e ReactDOM (CDN UMD) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- React Native Web (expõe o namespace global "ReactNative") -->
+    <script crossorigin src="https://unpkg.com/react-native-web/dist/index.umd.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { useState } = React;
+      const { View, Text, TextInput, Button } = ReactNative;
+
+      // Mesmo componente do React Native
+      function Espelhador({ placeholder, label = "Você digitou:" }) {
+        const [texto, setTexto] = useState("");
+
+        return React.createElement(
+          View,
+          null,
+          React.createElement(TextInput, {
+            placeholder,
+            value: texto,
+            onChangeText: setTexto,
+          }),
+          React.createElement(
+            Text,
+            null,
+            texto ? `${label} ${texto}` : "Nada digitado ainda.."
+          ),
+          React.createElement(Button, {
+            title: "Limpar",
+            onPress: () => setTexto(""),
+          })
+        );
+      }
+
+      function App() {
+        return React.createElement(
+          View,
+          null,
+          React.createElement(Espelhador, { placeholder: "Digite algo aqui..." })
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
